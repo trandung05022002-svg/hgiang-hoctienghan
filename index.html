@@ -263,12 +263,19 @@ let words = JSON.parse(localStorage.getItem('words')) || [];
 function renderWords() {
     let html = '';
 
-    words.forEach(word => {
-        html += `
-        <div style="padding:10px;border-bottom:1px solid #ddd">
-            <b>${word.korean}</b> - ${word.pronunciation} - ${word.meaning}
-        </div>
-        `;
+words.forEach((word,index) => {
+html += `
+<div style="padding:10px;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;">
+    <span>
+        <b>${word.korean}</b> - ${word.pronunciation} - ${word.meaning}
+    </span>
+
+    <button onclick="deleteWord(${index})"
+        style="background:red;color:white;border:none;padding:5px 10px;border-radius:5px;">
+        X
+    </button>
+</div>
+`;
     });
 
     document.getElementById('wordList').innerHTML = html;
@@ -305,7 +312,17 @@ function addWord() {
     document.getElementById('pronunciation').value = '';
     document.getElementById('meaning').value = '';
 }
+function deleteWord(index){
 
+    words.splice(index,1);
+
+    localStorage.setItem(
+        'words',
+        JSON.stringify(words)
+    );
+
+    renderWords();
+}
 renderWords();
 </script>
 

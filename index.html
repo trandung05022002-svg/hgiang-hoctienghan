@@ -191,7 +191,7 @@ HGIANG<br>HỌC TIẾNG HÀN
 
 <div class="card">
 <h3>Tổng từ vựng</h3>
-<div class="big">0</div>
+<div class="big" id="totalWords">0</div>
 </div>
 
 <div class="card">
@@ -272,6 +272,7 @@ function renderWords() {
     });
 
     document.getElementById('wordList').innerHTML = html;
+    document.getElementById('totalWords').innerText = words.length;
 }
 
 function addWord() {

@@ -237,6 +237,79 @@ Bắt đầu làm bài
 </div>
 
 </div>
+<div style="background:white;margin:20px;padding:20px;border-radius:20px;">
+    <h2>➕ Thêm từ vựng</h2>
 
+    <input id="korean" placeholder="Tiếng Hàn"
+        style="padding:10px;margin:5px;">
+
+    <input id="pronunciation" placeholder="Phiên âm"
+        style="padding:10px;margin:5px;">
+
+    <input id="meaning" placeholder="Nghĩa"
+        style="padding:10px;margin:5px;">
+
+    <button onclick="addWord()"
+        style="padding:10px 20px;background:#122c5a;color:white;border:none;border-radius:8px;">
+        Thêm từ
+    </button>
+
+    <div id="wordList" style="margin-top:20px;"></div>
+</div>
+
+<script>
+let words = JSON.parse(localStorage.getItem('words')) || [];
+
+function renderWords() {
+    let html = '';
+
+    words.forEach(word => {
+        html += `
+        <div style="padding:10px;border-bottom:1px solid #ddd">
+            <b>${word.korean}</b> - ${word.pronunciation} - ${word.meaning}
+        </div>
+        `;
+    });
+
+    document.getElementById('wordList').innerHTML = html;
+}
+
+function addWord() {
+
+    const korean =
+        document.getElementById('korean').value;
+
+    const pronunciation =
+        document.getElementById('pronunciation').value;
+
+    const meaning =
+        document.getElementById('meaning').value;
+
+    if (!korean || !meaning) return;
+
+    words.push({
+        korean,
+        pronunciation,
+        meaning
+    });
+
+    localStorage.setItem(
+        'words',
+        JSON.stringify(words)
+    );
+
+    renderWords();
+
+    document.getElementById('korean').value = '';
+    document.getElementById('pronunciation').value = '';
+    document.getElementById('meaning').value = '';
+}
+
+renderWords();
+</script>
+
+
+
+  
 </body>
 </html>

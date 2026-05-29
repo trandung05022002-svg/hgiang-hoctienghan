@@ -249,17 +249,22 @@ Sau ➡
 <div class="section">
 <h2>📝 Quiz</h2>
 
-<div class="quiz-box">
-<p><b>학교 nghĩa là gì?</b></p>
-<br>
-<p>A. Bạn bè</p>
-<p>B. Trường học</p>
-<p>C. Công ty</p>
-<p>D. Gia đình</p>
+<div class="quiz-box" id="quizBox">
 
-<button class="btn">
-Bắt đầu làm bài
+<button onclick="generateQuiz()"
+style="
+padding:10px 20px;
+background:#122c5a;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+">
+Tạo câu hỏi
 </button>
+
+<div id="quizContent" style="margin-top:20px;"></div>
+
 </div>
 
 </div>
@@ -479,6 +484,56 @@ function prevCard(){
 
     showMeaning=false;
     renderFlashcard();
+}
+function generateQuiz(){
+
+    if(words.length < 4){
+        alert("Cần ít nhất 4 từ");
+        return;
+    }
+
+    const correct =
+    words[Math.floor(Math.random()*words.length)];
+
+    let options = [correct.meaning];
+
+    while(options.length < 4){
+
+        let random =
+        words[Math.floor(Math.random()*words.length)].meaning;
+
+        if(!options.includes(random)){
+            options.push(random);
+        }
+    }
+
+    options.sort(() => Math.random() - 0.5);
+
+    let html =
+    `<h3>${correct.korean} nghĩa là gì?</h3>`;
+
+    options.forEach(option=>{
+
+        html += `
+        <p>
+        <button onclick="
+        if('${option}'==='${correct.meaning}')
+        {
+            alert('Chính xác!');
+        }
+        else
+        {
+            alert('Sai rồi!');
+        }
+        ">
+        ${option}
+        </button>
+        </p>
+        `;
+    });
+
+    document.getElementById("quizContent").innerHTML =
+    html;
 }    
 renderWords();
 renderFlashcard();

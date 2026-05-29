@@ -253,10 +253,22 @@ Bắt đầu làm bài
         style="padding:10px 20px;background:#122c5a;color:white;border:none;border-radius:8px;">
         Thêm từ
     </button>
+<br><br>
 
+<input type="file" id="excelFile">
+
+<button onclick="importExcel()"
+style="padding:10px 20px;
+background:green;
+color:white;
+border:none;
+border-radius:8px;
+margin-left:10px;">
+Import Excel
+</button>
     <div id="wordList" style="margin-top:20px;"></div>
 </div>
-
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 <script>
 let words = JSON.parse(localStorage.getItem('words')) || [];
 
@@ -323,6 +335,55 @@ function deleteWord(index){
 
     renderWords();
 }
+function importExcel(){
+
+    const file =
+    document.getElementById('excelFile').files[0];
+
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+
+        const data = new Uint8Array(e.target.result);
+
+        const workbook =
+        XLSX.read(data,{type:'array'});
+
+        const sheet =
+        workbook.Sheets[workbook.SheetNames[0]];
+
+        const rows =
+        XLSX.utils.sheet_to_json(sheet,{header:1});
+
+        rows.slice(1).forEach(row=>{
+
+            if(row[0]){
+
+                words.push({
+                    korean: row[0] || "",
+                    pronunciation: row[1] || "",
+                    meaning: row[2] || ""
+                });
+
+            }
+
+        });
+
+        localStorage.setItem(
+            'words',
+            JSON.stringify(words)
+        );
+
+        renderWords();
+
+        alert("Import thành công!");
+    };
+
+    reader.readAsArrayBuffer(file);
+}
+    
 renderWords();
 </script>
 

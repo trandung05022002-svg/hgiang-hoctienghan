@@ -213,40 +213,69 @@ HGIANG<br>HỌC TIẾNG HÀN
 
 <div class="section">
 <h2>📔 Flashcard</h2>
+<div style="text-align:center;padding:20px;">
 
-<div id="flashcardBox"
+<div id="flashcard"
 style="
-background:white;
-padding:30px;
-border-radius:12px;
-margin-top:15px;
-font-size:28px;
+background:#f5f7ff;
+padding:60px 20px;
+border-radius:20px;
+font-size:48px;
 font-weight:bold;
-text-align:center;
+margin-bottom:20px;
 cursor:pointer;
-min-height:120px;
-display:flex;
-justify-content:center;
-align-items:center;
 ">
-Chưa có từ vựng
+안녕하세요
 </div>
 
-<br>
+<div id="meaningBox"
+style="
+font-size:28px;
+display:none;
+margin-bottom:20px;
+">
+annyeonghaseyo<br>
+Xin chào
+</div>
 
-<button onclick="prevCard()">
-⬅ Trước
+<button onclick="toggleMeaning()"
+style="
+padding:10px 20px;
+background:#122c5a;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+">
+Hiện nghĩa
 </button>
 
-<button onclick="nextCard()">
-Sau ➡
-</button>
-<div class="flashcard">
-학교
-</div>
-</div>
+<br><br>
 
-<div class="section">
+<button onclick="prevCard()"
+style="
+padding:10px 20px;
+background:#122c5a;
+color:white;
+border:none;
+border-radius:8px;
+">
+← Trước
+</button>
+
+<button onclick="nextCard()"
+style="
+padding:10px 20px;
+background:#122c5a;
+color:white;
+border:none;
+border-radius:8px;
+margin-left:10px;
+">
+Sau →
+</button>
+
+</div>
 <h2>📝 Quiz</h2>
 
 <div class="quiz-box" id="quizBox">
@@ -534,6 +563,59 @@ function generateQuiz(){
 
     document.getElementById("quizContent").innerHTML =
     html;
+}    
+let currentCard = 0;
+let showMeaning = false;
+
+function renderFlashcard(){
+
+    if(words.length===0){
+        return;
+    }
+
+    document.getElementById("flashcard").innerText =
+        words[currentCard].korean;
+
+    document.getElementById("meaningBox").innerHTML =
+        words[currentCard].pronunciation +
+        "<br>" +
+        words[currentCard].meaning;
+
+    document.getElementById("meaningBox").style.display =
+        showMeaning ? "block" : "none";
+}
+
+function toggleMeaning(){
+    showMeaning = !showMeaning;
+    renderFlashcard();
+}
+
+function nextCard(){
+
+    if(words.length===0) return;
+
+    currentCard++;
+
+    if(currentCard >= words.length){
+        currentCard = 0;
+    }
+
+    showMeaning = false;
+    renderFlashcard();
+}
+
+function prevCard(){
+
+    if(words.length===0) return;
+
+    currentCard--;
+
+    if(currentCard < 0){
+        currentCard = words.length - 1;
+    }
+
+    showMeaning = false;
+    renderFlashcard();
 }    
 renderWords();
 renderFlashcard();

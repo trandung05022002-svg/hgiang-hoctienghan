@@ -563,14 +563,7 @@ function generateQuiz(){
         html += `
         <p>
         <button onclick="
-        if('${option}'==='${correct.meaning}')
-        {
-            alert('Chính xác!');
-        }
-        else
-        {
-            alert('Sai rồi!');
-        }
+checkAnswer('${option}','${correct.meaning}')
         ">
         ${option}
         </button>
@@ -657,6 +650,17 @@ function deleteAllWords(){
 }    
 renderWords();
 renderFlashcard();
+function checkAnswer(selected, correct){
+
+    if(selected === correct){
+        document.getElementById("quizResult").innerHTML =
+        "✅ Chính xác!";
+    }else{
+        document.getElementById("quizResult").innerHTML =
+        "❌ Sai rồi!";
+    }
+
+}    
 </script>
 
 

@@ -663,12 +663,17 @@ function checkAnswer(selected, correct){
     if(selected === correct){
         document.getElementById("quizResult").innerHTML =
         "✅ Chính xác!";
+
+        document.getElementById("quizResult").style.color = "green";
+
     }else{
         document.getElementById("quizResult").innerHTML =
         "❌ Sai rồi!";
+
+        document.getElementById("quizResult").style.color = "red";
     }
 
-}    
+}
 </script>
 
 

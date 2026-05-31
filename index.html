@@ -298,7 +298,14 @@ Tạo câu hỏi
 </button>
 
 <div id="quizContent" style="margin-top:20px;"></div>
-
+<div id="quizResult"
+style="
+margin-top:15px;
+font-size:22px;
+font-weight:bold;
+text-align:center;
+">
+</div>
 </div>
 
 </div>
@@ -563,14 +570,16 @@ function generateQuiz(){
         html += `
         <p>
         <button onclick="
-        if('${option}'==='${correct.meaning}')
-        {
-            alert('Chính xác!');
-        }
-        else
-        {
-            alert('Sai rồi!');
-        }
+if('${option}'==='${correct.meaning}')
+{
+    document.getElementById("quizResult").innerHTML =
+    "✅ Chính xác";
+}
+else
+{
+    document.getElementById("quizResult").innerHTML =
+    "❌ Sai rồi";
+}
         ">
         ${option}
         </button>

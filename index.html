@@ -282,7 +282,13 @@ Sau →
 
 </div>
 <h2>📝 Quiz</h2>
-
+<div id="quizScore" style="
+margin-bottom:15px;
+font-weight:bold;
+font-size:18px;
+">
+✅ Đúng: 0 | ❌ Sai: 0
+</div>
 <div class="quiz-box" id="quizBox">
 
 <button onclick="generateQuiz()"
@@ -367,6 +373,8 @@ cursor:pointer;
 <script>
 let words = JSON.parse(localStorage.getItem('words')) || [];
 
+let correctCount = 0;
+let wrongCount = 0;    
 function renderWords() {
     let html = '';
 
@@ -681,17 +689,33 @@ renderFlashcard();
 function checkAnswer(selected, correct){
 
     if(selected === correct){
-        document.getElementById("quizResult").innerHTML =
-        "✅ Chính xác!";
-        document.getElementById("quizResult").style.color = "green";
-    }else{
-        document.getElementById("quizResult").innerHTML =
-        "❌ Sai rồi!";
-        document.getElementById("quizResult").style.color = "red";
-    }
 
-    document.getElementById("nextQuizBtn").style.display = "inline-block";
+    correctCount++;
+
+    document.getElementById("quizResult").innerHTML =
+    "✅ Chính xác!";
+
+    document.getElementById("quizResult").style.color =
+    "green";
+
+}else{
+
+    wrongCount++;
+
+    document.getElementById("quizResult").innerHTML =
+    "❌ Sai rồi!";
+
+    document.getElementById("quizResult").style.color =
+    "red";
 }
+
+document.getElementById("quizScore").innerHTML =
+`✅ Đúng: ${correctCount} | ❌ Sai: ${wrongCount}`;
+
+document.getElementById("nextQuizBtn").style.display =
+"inline-block";
+
+}    
 </script>
 
 

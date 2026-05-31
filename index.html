@@ -374,7 +374,8 @@ cursor:pointer;
 let words = JSON.parse(localStorage.getItem('words')) || [];
 
 let correctCount = 0;
-let wrongCount = 0;    
+let wrongCount = 0; 
+let answered = false;    
 function renderWords() {
     let html = '';
 
@@ -556,7 +557,8 @@ function prevCard(){
     renderFlashcard();
 }
 function generateQuiz(){
-
+    
+answered = false;
     document.getElementById("quizResult").innerHTML = "";
     document.getElementById("nextQuizBtn").style.display = "none";
     if(words.length < 4){
@@ -588,7 +590,10 @@ function generateQuiz(){
 
         html += `
         <p>
-        <button onclick="
+        <button
+class="quiz-option"
+data-answer="${option}"
+onclick="
 checkAnswer('${option}','${correct.meaning}')
 "
 style="
@@ -688,6 +693,9 @@ renderWords();
 renderFlashcard();
 function checkAnswer(selected, correct){
 
+if(answered) return;
+
+answered = true;
     if(selected === correct){
 
     correctCount++;
@@ -711,7 +719,27 @@ function checkAnswer(selected, correct){
 
 document.getElementById("quizScore").innerHTML =
 `✅ Đúng: ${correctCount} | ❌ Sai: ${wrongCount}`;
+let buttons =
+document.querySelectorAll(".quiz-option");
 
+buttons.forEach(btn => {
+
+    btn.disabled = true;
+
+    if(btn.dataset.answer === correct){
+        btn.style.background = "#4CAF50";
+        btn.style.color = "white";
+    }
+
+    if(
+        btn.dataset.answer === selected &&
+        selected !== correct
+    ){
+        btn.style.background = "#f44336";
+        btn.style.color = "white";
+    }
+
+});
 document.getElementById("nextQuizBtn").style.display =
 "inline-block";
 

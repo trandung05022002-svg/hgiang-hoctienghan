@@ -299,6 +299,14 @@ Tạo câu hỏi
 
 <div id="quizContent" style="margin-top:20px;"></div>
 
+<div id="quizResult" style="margin-top:15px;font-weight:bold;"></div>
+
+<button id="nextQuizBtn"
+onclick="generateQuiz()"
+style="display:none;padding:10px 20px;margin-top:10px;background:#122c5a;color:white;border:none;border-radius:8px;">
+➡️ Tiếp tục
+</button>
+
 <div id="quizResult"
 style="
 margin-top:15px;
@@ -541,6 +549,8 @@ function prevCard(){
 }
 function generateQuiz(){
 
+    document.getElementById("quizResult").innerHTML = "";
+    document.getElementById("nextQuizBtn").style.display = "none";
     if(words.length < 4){
         alert("Cần ít nhất 4 từ");
         return;
@@ -673,16 +683,14 @@ function checkAnswer(selected, correct){
     if(selected === correct){
         document.getElementById("quizResult").innerHTML =
         "✅ Chính xác!";
-
         document.getElementById("quizResult").style.color = "green";
-
     }else{
         document.getElementById("quizResult").innerHTML =
         "❌ Sai rồi!";
-
         document.getElementById("quizResult").style.color = "red";
     }
 
+    document.getElementById("nextQuizBtn").style.display = "inline-block";
 }
 </script>
 

@@ -308,7 +308,11 @@ Tạo câu hỏi
 <div id="quizResult" style="margin-top:15px;font-weight:bold;"></div>
 
 <button id="nextQuizBtn"
-onclick="generateQuiz()"
+onclick="
+quizPool = [...words];
+wrongWords = [];
+generateQuiz();
+"
 style="display:none;padding:10px 20px;margin-top:10px;background:#122c5a;color:white;border:none;border-radius:8px;">
 ➡️ Tiếp tục
 </button>
@@ -375,7 +379,10 @@ let words = JSON.parse(localStorage.getItem('words')) || [];
 
 let correctCount = 0;
 let wrongCount = 0; 
-let answered = false;    
+let answered = false;   
+let quizPool = [];
+let wrongWords = [];
+let currentCorrectWord = null;    
 function renderWords() {
     let html = '';
 
@@ -559,6 +566,22 @@ function prevCard(){
 function generateQuiz(){
     
 answered = false;
+    if(quizPool.length === 0){
+
+    document.getElementById("quizContent").innerHTML = `
+        <h3>🎉 Đã học hết tất cả từ</h3>
+
+        <button onclick="restartLearning()">
+            Học lại
+        </button>
+
+        <button onclick="startReview()">
+            Ôn từ chưa thuộc
+        </button>
+    `;
+
+    return;
+}
     document.getElementById("quizResult").innerHTML = "";
     document.getElementById("nextQuizBtn").style.display = "none";
     if(words.length < 4){
@@ -566,8 +589,13 @@ answered = false;
         return;
     }
 
-    const correct =
-    words[Math.floor(Math.random()*words.length)];
+const randomIndex =
+Math.floor(Math.random() * quizPool.length);
+
+const correct =
+quizPool.splice(randomIndex,1)[0];
+
+currentCorrectWord = correct;
 
     let options = [correct.meaning];
 
@@ -709,6 +737,7 @@ answered = true;
 }else{
 
     wrongCount++;
+    wrongWords.push(currentCorrectWord);    
 
     document.getElementById("quizResult").innerHTML =
     "❌ Sai rồi!";

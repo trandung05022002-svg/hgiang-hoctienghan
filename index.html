@@ -567,23 +567,13 @@ function generateQuiz(){
 
     options.forEach(option=>{
 
-        html += `
-        <p>
-        <button onclick="
-if('${option}'==='${correct.meaning}')
-{
-    document.getElementById("quizResult").innerHTML =
-    "✅ Chính xác";
-}
-else
-{
-    document.getElementById("quizResult").innerHTML =
-    "❌ Sai rồi";
-}
-        ">
-        ${option}
-        </button>
-        </p>
+html += `
+<p>
+<button onclick="checkAnswer('${option}','${correct.meaning}')">
+${option}
+</button>
+</p>
+`;
         `;
     });
 
@@ -663,7 +653,18 @@ function deleteAllWords(){
     "none";
 
     alert("Đã xóa toàn bộ từ vựng!");
-}    
+}   
+function checkAnswer(selected, correct){
+
+    if(selected === correct){
+        document.getElementById("quizResult").innerHTML =
+        "✅ Chính xác";
+    }else{
+        document.getElementById("quizResult").innerHTML =
+        "❌ Sai rồi";
+    }
+
+}
 renderWords();
 renderFlashcard();
 </script>

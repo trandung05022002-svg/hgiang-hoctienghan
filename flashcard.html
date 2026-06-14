@@ -81,6 +81,184 @@ Sau →
 </button>
 
 </div>
-  
+let currentCard = 0;
+let showMeaning = false;
+
+function renderFlashcard(){
+
+    if(words.length === 0){
+        document.getElementById("flashcardBox").innerHTML =
+        "Chưa có từ vựng";
+        return;
+    }
+
+    let word = words[currentCard];
+
+    if(showMeaning){
+
+        document.getElementById("flashcardBox").innerHTML =
+        `
+        <div>
+            <div>${word.korean}</div>
+            <hr>
+            <div>${word.pronunciation}</div>
+            <div>${word.meaning}</div>
+        </div>
+        `;
+
+    }else{
+
+        document.getElementById("flashcardBox").innerHTML =
+        word.korean;
+
+    }
+}
+
+document.addEventListener("click",function(e){
+
+    if(e.target.id==="flashcardBox"){
+        showMeaning=!showMeaning;
+        renderFlashcard();
+    }
+
+});
+
+function nextCard(){
+
+    if(words.length===0) return;
+
+    currentCard++;
+
+    if(currentCard>=words.length){
+        currentCard=0;
+    }
+
+    showMeaning=false;
+    renderFlashcard();
+}
+
+function prevCard(){
+
+    if(words.length===0) return;
+
+    currentCard--;
+
+    if(currentCard<0){
+        currentCard=words.length-1;
+    }
+
+    showMeaning=false;
+    renderFlashcard();
+}
+function generateQuiz(){
+    
+answered = false;
+    document.getElementById("quizResult").innerHTML = "";
+    document.getElementById("nextQuizBtn").style.display = "none";
+    if(words.length < 4){
+        alert("Cần ít nhất 4 từ");
+        return;
+    }
+
+    const correct =
+    words[Math.floor(Math.random()*words.length)];
+
+    let options = [correct.meaning];
+
+    while(options.length < 4){
+
+        let random =
+        words[Math.floor(Math.random()*words.length)].meaning;
+
+        if(!options.includes(random)){
+            options.push(random);
+        }
+    }
+
+    options.sort(() => Math.random() - 0.5);
+
+    let html =
+    `<h3>${correct.korean} nghĩa là gì?</h3>`;
+
+    options.forEach(option=>{
+
+        html += `
+        <p>
+        <button
+class="quiz-option"
+data-answer="${option}"
+onclick="
+checkAnswer('${option}','${correct.meaning}')
+"
+style="
+padding:10px 15px;
+margin:5px 0;
+width:100%;
+border:none;
+border-radius:8px;
+background:#f5f5f5;
+cursor:pointer;
+font-size:16px;
+">
+        ${option}
+        </button>
+        </p>
+        `;
+    });
+
+    document.getElementById("quizContent").innerHTML =
+    html;
+}    
+
+function renderFlashcard(){
+
+    if(words.length===0){
+        return;
+    }
+
+    document.getElementById("flashcard").innerText =
+        words[currentCard].korean;
+
+    document.getElementById("meaningBox").innerHTML =
+        words[currentCard].pronunciation +
+        "<br>" +
+        words[currentCard].meaning;
+
+    document.getElementById("meaningBox").style.display =
+        showMeaning ? "block" : "none";
+}
+
+function toggleMeaning(){
+    showMeaning = !showMeaning;
+    renderFlashcard();
+}
+
+function nextCard(){
+
+    if(words.length===0) return;
+
+    currentCard++;
+
+    if(currentCard >= words.length){
+        currentCard = 0;
+    }
+
+    showMeaning = false;
+    renderFlashcard();
+}
+
+function prevCard(){
+
+    if(words.length===0) return;
+
+    currentCard--;
+
+    if(currentCard < 0){
+        currentCard = words.length - 1;
+    }
+
+    showMeaning = false;
+    renderFlashcard();
+}     
 </body>
 </html>

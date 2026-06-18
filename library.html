@@ -106,6 +106,39 @@ style="display:none;">
 
 <script>
 
+function renderHSK1Files(){
+
+    let files =
+    JSON.parse(localStorage.getItem("hsk1Files"))
+    || [];
+
+    let html = "";
+
+    files.forEach(file => {
+
+        html += `
+        <div class="lesson">
+
+            📄 ${file}
+
+            <button>
+                Review
+            </button>
+
+            <button>
+                Học
+            </button>
+
+        </div>
+        `;
+
+    });
+
+    document.getElementById("fileList")
+    .innerHTML = html;
+
+}
+    
 function toggleHSK1(){
 
     let box = document.getElementById("hsk1Content");
@@ -136,24 +169,18 @@ document
 
 if(file){
 
-    document.getElementById("fileList").innerHTML += `
-        <div style="
-            background:white;
-            padding:15px;
-            margin-top:10px;
-            border-radius:10px;
-        ">
-            📄 ${file.name}
+    let files =
+    JSON.parse(localStorage.getItem("hsk1Files"))
+    || [];
 
-            <button style="margin-left:20px">
-                Review
-            </button>
+    files.push(file.name);
 
-            <button>
-                Học
-            </button>
-        </div>
-    `;
+    localStorage.setItem(
+        "hsk1Files",
+        JSON.stringify(files)
+    );
+
+    renderHSK1Files();
 
 }
 

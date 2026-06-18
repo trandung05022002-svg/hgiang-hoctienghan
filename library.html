@@ -64,6 +64,24 @@ body{
 
 <div id="hsk1Content" style="display:none; margin-left:30px;">
 
+<button id="addFileBtn" style="
+padding:10px 15px;
+margin-bottom:15px;
+background:#122c5a;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+">
+➕ Thêm file Excel
+</button>
+
+<input
+type="file"
+id="excelFile"
+accept=".xlsx,.xls"
+style="display:none;">    
+    
     <div class="lesson">
         📄 Ngày 1
         <button>Review</button>
@@ -116,6 +134,28 @@ function toggleHSK1(){
 
 }
 
+document
+.getElementById("addFileBtn")
+.addEventListener("click", function(){
+
+    document
+    .getElementById("excelFile")
+    .click();
+
+});
+
+document
+.getElementById("excelFile")
+.addEventListener("change", function(e){
+
+    const file = e.target.files[0];
+
+    if(file){
+        alert("Đã chọn: " + file.name);
+    }
+
+});
+    
 </script>
     
 </body>

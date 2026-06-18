@@ -46,9 +46,6 @@ body{
 }
 
 </style>
-
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-    
 </head>
 
 <body>
@@ -195,64 +192,22 @@ document
 
 if(file){
 
-    const reader = new FileReader();
+    let files =
+    JSON.parse(localStorage.getItem("hsk1Files"))
+    || [];
 
-    reader.onload = function(e){
+    files.push(file.name);
 
-        const data =
-        new Uint8Array(e.target.result);
+    localStorage.setItem(
+        "hsk1Files",
+        JSON.stringify(files)
+    );
 
-        const workbook =
-        XLSX.read(data,{type:"array"});
-
-        const sheet =
-        workbook.Sheets[
-            workbook.SheetNames[0]
-        ];
-
-        const rows =
-        XLSX.utils.sheet_to_json(
-            sheet,
-            {header:1}
-        );
-
-        const fileWords = [];
-
-        rows.slice(1).forEach(row=>{
-
-            if(row[0]){
-
-                fileWords.push({
-                    korean: row[0] || "",
-                    pronunciation: row[1] || "",
-                    meaning: row[2] || ""
-                });
-
-            }
-
-        });
-
-        let files =
-        JSON.parse(localStorage.getItem("hsk1Files"))
-        || [];
-
-        files.push({
-            name:file.name,
-            words:fileWords
-        });
-
-        localStorage.setItem(
-            "hsk1Files",
-            JSON.stringify(files)
-        );
-
-        renderHSK1Files();
-
-    };
-
-    reader.readAsArrayBuffer(file);
+    renderHSK1Files();
 
 }
+
+});
 renderHSK1Files();    
 </script>
     

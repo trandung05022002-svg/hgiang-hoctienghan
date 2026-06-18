@@ -3,46 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Thư viện từ vựng</title>
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 
 <style>
 
-body{
-    font-family:Arial,sans-serif;
-    background:#f4f7fb;
-    padding:30px;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
-.box{
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    margin-bottom:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
-    cursor:pointer;
-    font-size:22px;
-    font-weight:bold;
+body{
+background:#f4f7fb;
+padding:30px;
+}
+
+.back{
+padding:10px 20px;
+background:#122c5a;
+color:white;
+border:none;
+border-radius:8px;
+text-decoration:none;
+display:inline-block;
+margin-bottom:20px;
+}
+
+h1{
+margin-bottom:25px;
+}
+
+.levelBox{
+background:white;
+padding:20px;
+border-radius:15px;
+margin-bottom:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+cursor:pointer;
+font-size:22px;
+font-weight:bold;
+}
+
+.levelContent{
+display:none;
+margin-left:30px;
+margin-top:15px;
+}
+
+.addBtn{
+padding:10px 15px;
+background:#122c5a;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+margin-bottom:15px;
 }
 
 .lesson{
-    background:white;
-    padding:15px;
-    margin:10px 0;
-    border-radius:10px;
+background:white;
+padding:15px;
+margin:10px 0;
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,.05);
 }
 
 .lesson button{
-    margin-left:10px;
-    padding:5px 12px;
+margin-left:8px;
+padding:6px 12px;
+border:none;
+border-radius:6px;
+cursor:pointer;
 }
-    
-.back{
-    padding:10px 20px;
-    background:#122c5a;
-    color:white;
-    border:none;
-    border-radius:8px;
-    text-decoration:none;
+
+.reviewBtn{
+background:#2196F3;
+color:white;
+}
+
+.studyBtn{
+background:#4CAF50;
+color:white;
+}
+
+.deleteBtn{
+background:#f44336;
+color:white;
+}
+
+.reviewAllBtn{
+background:#FF9800;
+color:white;
+}
+
+.hiddenFile{
+display:none;
 }
 
 </style>
@@ -54,162 +113,444 @@ body{
 ← Trang chủ
 </a>
 
-<h1 style="margin-top:20px;">
-📚 THƯ VIỆN
-</h1>
+<h1>📚 THƯ VIỆN TỪ VỰNG</h1>
 
-<div class="box" onclick="toggleHSK1()">
+<div class="levelBox" onclick="toggleLevel('HSK1')">
 ▶ HSK1
 </div>
 
-<div id="hsk1Content" style="display:none; margin-left:30px;">
+<div id="HSK1" class="levelContent">
 
-<button id="addFileBtn" style="
-padding:10px 15px;
-margin-bottom:15px;
-background:#122c5a;
-color:white;
-border:none;
-border-radius:8px;
-cursor:pointer;
-">
+<button class="addBtn"
+onclick="document.getElementById('fileHSK1').click()">
 ➕ Thêm file Excel
 </button>
 
 <input
 type="file"
-id="excelFile"
-accept=".xlsx,.xls"
-style="display:none;">  
-    
-<div id="fileList"></div>    
+id="fileHSK1"
+class="hiddenFile"
+accept=".xlsx,.xls">
 
-    <div class="lesson">
-        📚 Ôn tập HSK1
-        <button>Review</button>
-        <button>Học</button>
-    </div>
+<div id="listHSK1"></div>
+
+<div class="lesson">
+📚 Ôn tập HSK1
+<button
+class="studyBtn"
+onclick="studyAll('HSK1')">
+Học
+</button>
+</div>
 
 </div>
 
-<div class="box">
+<div class="levelBox" onclick="toggleLevel('HSK2')">
 ▶ HSK2
 </div>
 
-<div class="box">
+<div id="HSK2" class="levelContent">
+
+<button class="addBtn"
+onclick="document.getElementById('fileHSK2').click()">
+➕ Thêm file Excel
+</button>
+
+<input
+type="file"
+id="fileHSK2"
+class="hiddenFile"
+accept=".xlsx,.xls">
+
+<div id="listHSK2"></div>
+
+<div class="lesson">
+📚 Ôn tập HSK2
+<button
+class="studyBtn"
+onclick="studyAll('HSK2')">
+Học
+</button>
+</div>
+
+</div>
+
+<div class="levelBox" onclick="toggleLevel('HSK3')">
 ▶ HSK3
 </div>
 
-<div class="box">
+<div id="HSK3" class="levelContent">
+
+<button class="addBtn"
+onclick="document.getElementById('fileHSK3').click()">
+➕ Thêm file Excel
+</button>
+
+<input
+type="file"
+id="fileHSK3"
+class="hiddenFile"
+accept=".xlsx,.xls">
+
+<div id="listHSK3"></div>
+
+<div class="lesson">
+📚 Ôn tập HSK3
+<button
+class="studyBtn"
+onclick="studyAll('HSK3')">
+Học
+</button>
+</div>
+
+</div>
+
+<div class="levelBox" onclick="toggleLevel('HSK4')">
 ▶ HSK4
+</div>
+
+<div id="HSK4" class="levelContent">
+
+<button class="addBtn"
+onclick="document.getElementById('fileHSK4').click()">
+➕ Thêm file Excel
+</button>
+
+<input
+type="file"
+id="fileHSK4"
+class="hiddenFile"
+accept=".xlsx,.xls">
+
+<div id="listHSK4"></div>
+
+<div class="lesson">
+📚 Ôn tập HSK4
+<button
+class="studyBtn"
+onclick="studyAll('HSK4')">
+Học
+</button>
+</div>
+
 </div>
 
 <script>
 
-function renderHSK1Files(){
+const STORAGE_KEY = "vocabLibrary";
 
-    let files =
-    JSON.parse(localStorage.getItem("hsk1Files"))
-    || [];
+function getLibrary(){
+
+    return JSON.parse(
+        localStorage.getItem(STORAGE_KEY)
+    ) || {
+        HSK1:[],
+        HSK2:[],
+        HSK3:[],
+        HSK4:[]
+    };
+
+}
+
+function saveLibrary(data){
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(data)
+    );
+
+}
+
+function toggleLevel(level){
+
+    const box =
+    document.getElementById(level);
+
+    if(box.style.display === "block"){
+        box.style.display = "none";
+    }else{
+        box.style.display = "block";
+    }
+
+}
+
+function renderLevel(level){
+
+    const library =
+    getLibrary();
+
+    const files =
+    library[level];
 
     let html = "";
 
-    files.forEach(file => {
+    files.forEach((file,index)=>{
 
-html += `
-<div class="lesson">
+        html += `
+        <div class="lesson">
 
-    📄 ${file}
+            📄 ${file.name}
 
-    <button>Review</button>
+            <button
+            class="reviewBtn"
+            onclick="
+            reviewFile(
+            '${level}',
+            ${index}
+            )">
+            Review
+            </button>
 
-    <button>Học</button>
+            <button
+            class="studyBtn"
+            onclick="
+            studyFile(
+            '${level}',
+            ${index}
+            )">
+            Học
+            </button>
 
-    <button onclick="deleteFile('${file}')">
-        Xóa
-    </button>
+            <button
+            class="deleteBtn"
+            onclick="
+            deleteFile(
+            '${level}',
+            ${index}
+            )">
+            Xóa
+            </button>
 
-</div>
-`;
+        </div>
+        `;
 
     });
 
-    document.getElementById("fileList")
-    .innerHTML = html;
+    document.getElementById(
+        "list" + level
+    ).innerHTML = html;
 
 }
 
-function deleteFile(fileName){
+function renderAll(){
 
-    if(!confirm("Xóa " + fileName + " ?")){
+    renderLevel("HSK1");
+    renderLevel("HSK2");
+    renderLevel("HSK3");
+    renderLevel("HSK4");
+
+}
+
+function deleteFile(level,index){
+
+    if(
+        !confirm("Xóa file này?")
+    ){
         return;
     }
 
-    let files =
-    JSON.parse(localStorage.getItem("hsk1Files"))
-    || [];
+    const library =
+    getLibrary();
 
-    files = files.filter(
-        file => file !== fileName
-    );
+    library[level].splice(index,1);
 
-    localStorage.setItem(
-        "hsk1Files",
-        JSON.stringify(files)
-    );
+    saveLibrary(library);
 
-    renderHSK1Files();
-
-}    
-    
-function toggleHSK1(){
-
-    let box = document.getElementById("hsk1Content");
-
-    if(box.style.display === "none"){
-        box.style.display = "block";
-    }else{
-        box.style.display = "none";
-    }
+    renderAll();
 
 }
 
-document
-.getElementById("addFileBtn")
-.addEventListener("click", function(){
+function setupImport(level){
 
     document
-    .getElementById("excelFile")
-    .click();
+    .getElementById("file" + level)
+    .addEventListener(
+        "change",
+        function(e){
 
-});
+            const file =
+            e.target.files[0];
 
-document
-.getElementById("excelFile")
-.addEventListener("change", function(e){
+            if(!file) return;
 
-    const file = e.target.files[0];
+            const reader =
+            new FileReader();
 
-if(file){
+            reader.onload =
+            function(event){
 
-    let files =
-    JSON.parse(localStorage.getItem("hsk1Files"))
-    || [];
+                const data =
+                new Uint8Array(
+                    event.target.result
+                );
 
-    files.push(file.name);
+                const workbook =
+                XLSX.read(
+                    data,
+                    {type:"array"}
+                );
 
-    localStorage.setItem(
-        "hsk1Files",
-        JSON.stringify(files)
+                const sheet =
+                workbook.Sheets[
+                    workbook.SheetNames[0]
+                ];
+
+                const rows =
+                XLSX.utils.sheet_to_json(
+                    sheet,
+                    {header:1}
+                );
+
+                let words = [];
+
+                rows.slice(1)
+                .forEach(row=>{
+
+                    if(row[0]){
+
+                        words.push({
+                            korean:
+                            row[0] || "",
+
+                            pronunciation:
+                            row[1] || "",
+
+                            meaning:
+                            row[2] || ""
+                        });
+
+                    }
+
+                });
+
+                const library =
+                getLibrary();
+
+                library[level].push({
+
+                    name:file.name,
+
+                    words:words,
+
+                    createdAt:
+                    Date.now()
+
+                });
+
+                saveLibrary(
+                    library
+                );
+
+                renderAll();
+
+                alert(
+                    "Đã lưu "
+                    + words.length +
+                    " từ"
+                );
+
+            };
+
+            reader.readAsArrayBuffer(
+                file
+            );
+
+        }
     );
-
-    renderHSK1Files();
 
 }
 
-});
-renderHSK1Files();    
+setupImport("HSK1");
+setupImport("HSK2");
+setupImport("HSK3");
+setupImport("HSK4");
+
+function reviewFile(level,index){
+
+    const library =
+    getLibrary();
+
+    const file =
+    library[level][index];
+
+    localStorage.setItem(
+        "reviewWords",
+        JSON.stringify(
+            file.words
+        )
+    );
+
+    localStorage.setItem(
+        "reviewTitle",
+        file.name
+    );
+
+    window.location.href =
+    "review.html";
+
+}
+
+function studyFile(level,index){
+
+    const library =
+    getLibrary();
+
+    const file =
+    library[level][index];
+
+    localStorage.setItem(
+        "words",
+        JSON.stringify(
+            file.words
+        )
+    );
+
+    window.location.href =
+    "index.html";
+
+}
+
+function studyAll(level){
+
+    const library =
+    getLibrary();
+
+    let allWords = [];
+
+    library[level]
+    .forEach(file=>{
+
+        allWords =
+        allWords.concat(
+            file.words
+        );
+
+    });
+
+    if(
+        allWords.length === 0
+    ){
+        alert(
+            "Chưa có từ vựng"
+        );
+        return;
+    }
+
+    localStorage.setItem(
+        "words",
+        JSON.stringify(
+            allWords
+        )
+    );
+
+    window.location.href =
+    "index.html";
+
+}
+
+renderAll();
+
 </script>
-    
+
 </body>
-</html>
+</html>    

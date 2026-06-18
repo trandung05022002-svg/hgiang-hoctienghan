@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thư viện từ vựng</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f7fb;
+    padding:30px;
+}
+
+.box{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    cursor:pointer;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.lesson{
+    background:white;
+    padding:15px;
+    margin:10px 0;
+    border-radius:10px;
+}
+
+.lesson button{
+    margin-left:10px;
+    padding:5px 12px;
+}
+    
+.back{
+    padding:10px 20px;
+    background:#122c5a;
+    color:white;
+    border:none;
+    border-radius:8px;
+    text-decoration:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<a href="index.html" class="back">
+← Trang chủ
+</a>
+
+<h1 style="margin-top:20px;">
+📚 THƯ VIỆN
+</h1>
+
+<div class="box" onclick="toggleHSK1()">
+▶ HSK1
+</div>
+
+<div id="hsk1Content" style="display:none; margin-left:30px;">
+
+<button id="addFileBtn" style="
+padding:10px 15px;
+margin-bottom:15px;
+background:#122c5a;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+">
+➕ Thêm file Excel
+</button>
+
+<input
+type="file"
+id="excelFile"
+accept=".xlsx,.xls"
+style="display:none;">  
+    
+<div id="fileList"></div>    
+
+    <div class="lesson">
+        📚 Ôn tập HSK1
+        <button>Review</button>
+        <button>Học</button>
+    </div>
+
+</div>
+
+<div class="box">
+▶ HSK2
+</div>
+
+<div class="box">
+▶ HSK3
+</div>
+
+<div class="box">
+▶ HSK4
+</div>
+
+<script>
+
+function renderHSK1Files(){
+
+    let files =
+    JSON.parse(localStorage.getItem("hsk1Files"))
+    || [];
+
+    let html = "";
+
+    files.forEach(file => {
+
+html += `
+<div class="lesson">
+
+    📄 ${file}
+
+    <button>Review</button>
+
+    <button>Học</button>
+
+    <button onclick="deleteFile('${file}')">
+        Xóa
+    </button>
+
+</div>
+`;
+
+    });
+
+    document.getElementById("fileList")
+    .innerHTML = html;
+
+}
+
+function deleteFile(fileName){
+
+    if(!confirm("Xóa " + fileName + " ?")){
+        return;
+    }
+
+    let files =
+    JSON.parse(localStorage.getItem("hsk1Files"))
+    || [];
+
+    files = files.filter(
+        file => file !== fileName
+    );
+
+    localStorage.setItem(
+        "hsk1Files",
+        JSON.stringify(files)
+    );
+
+    renderHSK1Files();
+
+}    
+    
+function toggleHSK1(){
+
+    let box = document.getElementById("hsk1Content");
+
+    if(box.style.display === "none"){
+        box.style.display = "block";
+    }else{
+        box.style.display = "none";
+    }
+
+}
+
+document
+.getElementById("addFileBtn")
+.addEventListener("click", function(){
+
+    document
+    .getElementById("excelFile")
+    .click();
+
+});
+
+document
+.getElementById("excelFile")
+.addEventListener("change", function(e){
+
+    const file = e.target.files[0];
+
+if(file){
+
+    let files =
+    JSON.parse(localStorage.getItem("hsk1Files"))
+    || [];
+
+    files.push(file.name);
+
+    localStorage.setItem(
+        "hsk1Files",
+        JSON.stringify(files)
+    );
+
+    renderHSK1Files();
+
+}
+
+});
+renderHSK1Files();    
+</script>
+    
+</body>
+</html>

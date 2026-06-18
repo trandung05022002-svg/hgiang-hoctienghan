@@ -116,21 +116,21 @@ function renderHSK1Files(){
 
     files.forEach(file => {
 
-        html += `
-        <div class="lesson">
+html += `
+<div class="lesson">
 
-            📄 ${file}
+    📄 ${file}
 
-            <button>
-                Review
-            </button>
+    <button>Review</button>
 
-            <button>
-                Học
-            </button>
+    <button>Học</button>
 
-        </div>
-        `;
+    <button onclick="deleteFile('${file}')">
+        Xóa
+    </button>
+
+</div>
+`;
 
     });
 
@@ -138,6 +138,29 @@ function renderHSK1Files(){
     .innerHTML = html;
 
 }
+
+function deleteFile(fileName){
+
+    if(!confirm("Xóa " + fileName + " ?")){
+        return;
+    }
+
+    let files =
+    JSON.parse(localStorage.getItem("hsk1Files"))
+    || [];
+
+    files = files.filter(
+        file => file !== fileName
+    );
+
+    localStorage.setItem(
+        "hsk1Files",
+        JSON.stringify(files)
+    );
+
+    renderHSK1Files();
+
+}    
     
 function toggleHSK1(){
 

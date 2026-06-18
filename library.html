@@ -80,8 +80,9 @@ cursor:pointer;
 type="file"
 id="excelFile"
 accept=".xlsx,.xls"
-style="display:none;">    
+style="display:none;">  
     
+<div id="fileList"></div>    
     <div class="lesson">
         📄 Ngày 1
         <button>Review</button>
@@ -150,9 +151,28 @@ document
 
     const file = e.target.files[0];
 
-    if(file){
-        alert("Đã chọn: " + file.name);
-    }
+if(file){
+
+    document.getElementById("fileList").innerHTML += `
+        <div style="
+            background:white;
+            padding:15px;
+            margin-top:10px;
+            border-radius:10px;
+        ">
+            📄 ${file.name}
+
+            <button style="margin-left:20px">
+                Review
+            </button>
+
+            <button>
+                Học
+            </button>
+        </div>
+    `;
+
+}
 
 });
     

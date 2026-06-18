@@ -87,6 +87,16 @@ style="display:none;">
     
 <div id="fileList"></div>    
 
+<div id="reviewBox"
+style="
+margin-top:20px;
+background:white;
+padding:20px;
+border-radius:10px;
+display:none;
+">
+</div>
+    
     <div class="lesson">
         📚 Ôn tập HSK1
         <button>Review</button>
@@ -124,7 +134,9 @@ html += `
 
     📄 ${file}
 
-    <button>Review</button>
+<button onclick="reviewFile(${index})">
+Review
+</button>
 
     <button>Học</button>
 
@@ -250,6 +262,46 @@ if(file){
 
     };
 
+function reviewFile(index){
+
+    let files =
+    JSON.parse(
+        localStorage.getItem("hsk1Files")
+    ) || [];
+
+    let file = files[index];
+
+    let html = `
+    <h3>${file.name}</h3>
+
+    <table border="1"
+    cellpadding="8"
+    style="border-collapse:collapse;width:100%;">
+        <tr>
+            <th>Tiếng Hàn</th>
+            <th>Phiên âm</th>
+            <th>Nghĩa</th>
+        </tr>
+    `;
+
+    file.words.forEach(word=>{
+
+        html += `
+        <tr>
+            <td>${word.korean}</td>
+            <td>${word.pronunciation}</td>
+            <td>${word.meaning}</td>
+        </tr>
+        `;
+
+    });
+
+    html += "</table>";
+
+    document.getElementById("reviewBox").innerHTML = html;
+    document.getElementById("reviewBox").style.display = "block";
+}
+    
     reader.readAsArrayBuffer(file);
 
 }

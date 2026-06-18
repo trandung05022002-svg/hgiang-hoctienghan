@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Review từ vựng</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f4f7fb;
+padding:30px;
+}
+
+.back{
+display:inline-block;
+padding:10px 20px;
+background:#122c5a;
+color:white;
+text-decoration:none;
+border-radius:8px;
+margin-bottom:20px;
+}
+
+.container{
+background:white;
+padding:25px;
+border-radius:20px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+h1{
+margin-bottom:20px;
+color:#122c5a;
+}
+
+.info{
+margin-bottom:15px;
+font-size:16px;
+font-weight:bold;
+}
+
+.searchBox{
+width:100%;
+padding:12px;
+border:1px solid #ddd;
+border-radius:8px;
+margin-bottom:20px;
+font-size:16px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+}
+
+th{
+background:#122c5a;
+color:white;
+padding:12px;
+text-align:left;
+}
+
+td{
+padding:10px;
+border:1px solid #ddd;
+}
+
+tr:nth-child(even){
+background:#f8f9fc;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<a href="library.html"
+class="back">
+← Quay lại thư viện </a>
+
+<div class="container">
+
+<h1 id="fileTitle">
+Review từ vựng
+</h1>
+
+<div class="info"
+id="totalWords">
+Tổng số từ: 0
+</div>
+
+<input
+type="text"
+id="searchInput"
+class="searchBox"
+placeholder="Tìm kiếm từ vựng..."
+onkeyup="searchWords()">
+
+<table>
+
+<thead>
+<tr>
+<th>Tiếng Hàn</th>
+<th>Phiên âm</th>
+<th>Nghĩa</th>
+</tr>
+</thead>
+
+<tbody id="tableBody">
+</tbody>
+
+</table>
+
+</div>
+
+<script>
+
+  const words =
+JSON.parse(
+localStorage.getItem(
+"reviewWords"
+)
+) || [];
+
+const title =
+localStorage.getItem(
+"reviewTitle"
+)
+|| "Review từ vựng";
+
+document
+.getElementById("fileTitle")
+.innerText = title;
+
+document
+.getElementById("totalWords")
+.innerText =
+"Tổng số từ: "
+
+* words.length;
+
+function renderTable(data){
+
+let html = "";
+
+data.forEach(word=>{
+
+html += `
+
+<tr>
+<td>${word.korean}</td>
+<td>${word.pronunciation}</td>
+<td>${word.meaning}</td>
+</tr>
+`;
+
+});
+
+document
+.getElementById("tableBody")
+.innerHTML = html;
+
+}
+
+function searchWords(){
+
+const keyword =
+document
+.getElementById(
+"searchInput"
+)
+.value
+.toLowerCase();
+
+const filtered =
+words.filter(word =>
+
+(word.korean || "")
+.toLowerCase()
+.includes(keyword)
+
+||
+
+(word.pronunciation || "")
+.toLowerCase()
+.includes(keyword)
+
+||
+
+(word.meaning || "")
+.toLowerCase()
+.includes(keyword)
+
+);
+
+renderTable(filtered);
+
+}
+
+renderTable(words);
+
+</script>
+
+</body>
+</html>

@@ -381,6 +381,10 @@ let words = JSON.parse(localStorage.getItem('words')) || [];
 let correctCount = 0;
 let wrongCount = 0; 
 let answered = false;    
+
+let quizOrder = [];
+let quizPosition = 0;
+    
 function renderWords() {
     let html = '';
 
@@ -571,8 +575,19 @@ answered = false;
         return;
     }
 
-    const correct =
-    words[Math.floor(Math.random()*words.length)];
+    if(
+    quizOrder.length === 0 ||
+    quizPosition >= quizOrder.length
+){
+    shuffleQuiz();
+}
+
+const correct =
+words[
+    quizOrder[quizPosition]
+];
+
+quizPosition++;
 
     let options = [correct.meaning];
 
@@ -693,7 +708,23 @@ function deleteAllWords(){
     "none";
 
     alert("Đã xóa toàn bộ từ vựng!");
-}    
+}  
+
+function shuffleQuiz(){
+
+    quizOrder = [];
+
+    for(let i=0;i<words.length;i++){
+        quizOrder.push(i);
+    }
+
+    quizOrder.sort(
+        () => Math.random()-0.5
+    );
+
+    quizPosition = 0;
+}
+    
 renderWords();
 renderFlashcard();
 function checkAnswer(selected, correct){

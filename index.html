@@ -331,6 +331,68 @@ text-align:center;
 </div>
 
 </div>
+
+<div class="section">
+
+<h2>🎮 Học tiếng Trung</h2>
+
+<div id="chinaGame">
+
+<div id="chinaQuestion"
+style="
+font-size:28px;
+font-weight:bold;
+margin-bottom:20px;
+">
+Chưa có dữ liệu
+</div>
+
+<input
+id="chinaAnswer"
+placeholder="Nhập từ tiếng Trung"
+style="
+padding:12px;
+width:100%;
+font-size:18px;
+border-radius:8px;
+border:1px solid #ccc;
+">
+
+<br><br>
+
+<button
+onclick="checkChinaAnswer()"
+class="btn">
+Kiểm tra
+</button>
+
+<button
+onclick="showChinaAnswer()"
+class="btn">
+Hiện đáp án
+</button>
+
+<button
+id="chinaNextBtn"
+onclick="nextChinaQuestion()"
+class="btn"
+style="display:none;">
+Next
+</button>
+
+<div
+id="chinaResult"
+style="
+margin-top:20px;
+font-size:22px;
+font-weight:bold;
+">
+</div>
+
+</div>
+
+</div>
+    
 <div style="background:white;margin:20px;padding:20px;border-radius:20px;">
     <h2>➕ Thêm từ vựng</h2>
 
@@ -384,6 +446,10 @@ let answered = false;
 
 let quizOrder = [];
 let quizPosition = 0;
+
+let chinaOrder = [];
+let chinaPosition = 0;
+let currentChinaWord = null;
     
 function renderWords() {
     let html = '';
@@ -724,9 +790,121 @@ function shuffleQuiz(){
 
     quizPosition = 0;
 }
+
+function shuffleChina(){
+
+    chinaOrder = [];
+
+    for(let i=0;i<words.length;i++){
+        chinaOrder.push(i);
+    }
+
+    chinaOrder.sort(
+        () => Math.random() - 0.5
+    );
+
+    chinaPosition = 0;
+}
+
+function nextChinaQuestion(){
+
+    if(words.length === 0){
+        return;
+    }
+
+    if(
+        chinaOrder.length === 0 ||
+        chinaPosition >= chinaOrder.length
+    ){
+        shuffleChina();
+    }
+
+    currentChinaWord =
+    words[
+        chinaOrder[chinaPosition]
+    ];
+
+    chinaPosition++;
+
+    document
+    .getElementById("chinaQuestion")
+    .innerText =
+    currentChinaWord.meaning;
+
+    document
+    .getElementById("chinaAnswer")
+    .value = "";
+
+    document
+    .getElementById("chinaResult")
+    .innerHTML = "";
+
+    document
+    .getElementById("chinaNextBtn")
+    .style.display = "none";
+}
+
+function checkChinaAnswer(){
+
+    if(!currentChinaWord){
+        return;
+    }
+
+    const answer =
+    document
+    .getElementById("chinaAnswer")
+    .value
+    .trim();
+
+    if(
+        answer ===
+        currentChinaWord.korean
+    ){
+
+        document
+        .getElementById("chinaResult")
+        .innerHTML = `
+        ✅ Correct<br><br>
+        ${currentChinaWord.korean}<br>
+        ${currentChinaWord.pronunciation}
+        `;
+
+        document
+        .getElementById("chinaNextBtn")
+        .style.display = "inline-block";
+
+    }else{
+
+        document
+        .getElementById("chinaResult")
+        .innerHTML =
+        "❌ Incorrect";
+
+    }
+}
+
+function showChinaAnswer(){
+
+    if(!currentChinaWord){
+        return;
+    }
+
+    document
+    .getElementById("chinaResult")
+    .innerHTML = `
+    📖 Đáp án<br><br>
+    ${currentChinaWord.korean}<br>
+    ${currentChinaWord.pronunciation}
+    `;
+
+    document
+    .getElementById("chinaNextBtn")
+    .style.display = "inline-block";
+}
     
 renderWords();
 renderFlashcard();
+nextChinaQuestion();
 function checkAnswer(selected, correct){
 
 if(answered) return;
